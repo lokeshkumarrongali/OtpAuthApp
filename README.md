@@ -71,13 +71,13 @@ This approach simulates backend-like validation while keeping all logic local, a
 
 ### 4. AI Assistance vs Manual Implementation
 
-- **AI Assistance (Antigravity / GPT)**  
+- **AI Assistance (GPT)**  
   Used for generating initial structural boilerplate, Compose layout suggestions, and clarifying API usage.
 
 - **Manually Implemented & Understood**  
   - Application architecture and one-way data flow design  
   - OTP generation, expiry, and retry logic  
-  - ViewModel-driven state management  
+  - ViewModel-driven state management
   - Session timer implementation that survives recompositions  
   - Debugging build and runtime issues during development  
 
