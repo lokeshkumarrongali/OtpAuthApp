@@ -16,42 +16,38 @@ fun BubblyBackground(modifier: Modifier = Modifier) {
         val w = size.width
         val h = size.height
 
-        // circle 1
+
         drawCircle(
             color = PrimaryPurple.copy(alpha = 0.2f),
             radius = w * 0.45f,
             center = Offset(w * 0.1f, h * 0.05f)
         )
 
-        // circle 2
+
         drawCircle(
             color = AccentCyan.copy(alpha = 0.15f),
             radius = w * 0.55f,
             center = Offset(w * 0.95f, h * 0.95f)
         )
-
-        // circle 3
         drawCircle(
             color = AccentPink.copy(alpha = 0.12f),
             radius = w * 0.35f,
             center = Offset(w * -0.05f, h * 0.55f)
         )
 
-        // circle 4
         drawCircle(
             color = AccentCyan.copy(alpha = 0.08f),
             radius = w * 0.25f,
             center = Offset(w * 0.9f, h * 0.15f)
         )
         
-        // circle 5
+
         drawCircle(
             color = PrimaryPurple.copy(alpha = 0.1f),
             radius = w * 0.4f,
             center = Offset(w * 0.15f, h * 0.9f)
         )
 
-        // center glow
         drawCircle(
             color = PrimaryPurple.copy(alpha = 0.05f),
             radius = w * 0.6f,

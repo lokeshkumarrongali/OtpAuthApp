@@ -43,7 +43,7 @@ fun SessionScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             if (session != null) {
-                // boxed session info
+
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()

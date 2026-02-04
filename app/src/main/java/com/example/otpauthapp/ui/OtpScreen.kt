@@ -39,7 +39,6 @@ fun OtpScreen(
 
     var timeLeft by remember { mutableStateOf(60) }
 
-    // update timer every 1s
     LaunchedEffect(startTime) {
         if (startTime != null) {
             while (true) {
@@ -79,7 +78,8 @@ fun OtpScreen(
                 singleLine = true
             )
 
-            // countdown timer
+
+
             if (startTime != null && timeLeft > 0) {
                 Text(
                     text = "Expires in: ${timeLeft}s",
@@ -120,7 +120,7 @@ fun OtpScreen(
 
             TextButton(
                 onClick = { 
-                    otp = "" // clear field
+                    otp = ""
                     onResendOtp(email) 
                 },
                 enabled = !loading && email.isNotBlank()

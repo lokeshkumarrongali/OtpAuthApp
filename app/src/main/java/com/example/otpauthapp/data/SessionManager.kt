@@ -22,11 +22,17 @@ class SessionManager(context: Context) {
         }
     }
 
+
+
+
     fun getSessionEmail(): String? = prefs.getString(KEY_EMAIL, null)
 
-    fun getSessionStartTime(): Long = prefs.getLong(KEY_START_TIME, 0L)
+
+      fun getSessionStartTime(): Long = prefs.getLong(KEY_START_TIME, 0L)
+
 
     fun isLoggedIn(): Boolean = prefs.getBoolean(KEY_IS_LOGGED_IN, false)
+
 
     fun clearSession() {
         prefs.edit().clear().apply()

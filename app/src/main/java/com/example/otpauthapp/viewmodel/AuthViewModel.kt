@@ -23,12 +23,12 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private var timerJob: Job? = null
     private var lastEmail: String? = null
 
-    // state for ui
+
     private val _uiState = mutableStateOf<AuthState>(AuthState.EmailInput)
     val uiState: State<AuthState> = _uiState
 
     init {
-        // check if user is already logged in
+
         if (sessionManager.isLoggedIn()) {
             val email = sessionManager.getSessionEmail() ?: ""
             val startTime = sessionManager.getSessionStartTime()
@@ -45,7 +45,6 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
 
     private var otpTime: Long? = null
 
-    // when user clicks send otp
     fun onEmailSubmitted(email: String) {
         lastEmail = email
         val code = otpManager.generateOtp(email)
@@ -55,7 +54,6 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         _uiState.value = AuthState.OtpInput(email, now)
     }
 
-    // when user clicks verify
     fun onOtpSubmitted(email: String, otp: String) {
         val result = otpManager.validateOtp(email, otp)
         _uiState.value = when (result) {
@@ -108,7 +106,6 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         _uiState.value = AuthState.EmailInput
     }
 
-    // timer in vm so it doesn't reset on rotate or navigation
     private fun startSessionTimer(startTime: Long) {
         timerJob?.cancel()
         timerJob = viewModelScope.launch {

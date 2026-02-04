@@ -22,6 +22,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+
             OtpAuthAppTheme {
                 val viewModel: AuthViewModel = viewModel()
                 val state by viewModel.uiState
@@ -52,10 +53,6 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         is AuthState.Error -> {
-                            // Determine which screen to show based on previous context
-                            // If we were at OTP stage, stay there. Otherwise Login.
-                            // In our state flow, OTP errors stay on OTP screen.
-                            // General errors might go to Login.
                             if (currentState is AuthState.Error.General) {
                                 LoginScreen(
                                     state = state,

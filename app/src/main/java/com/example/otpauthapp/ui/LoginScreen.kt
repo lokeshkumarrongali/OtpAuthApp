@@ -22,8 +22,7 @@ fun LoginScreen(
 ) {
     var email by rememberSaveable { mutableStateOf("") }
     val loading = state is AuthState.Loading
-    
-    // real time validation
+
     val isValid = email.isNotBlank() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     val error = email.isNotBlank() && !isValid
 

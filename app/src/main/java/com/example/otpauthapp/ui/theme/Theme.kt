@@ -37,11 +37,9 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun OtpAuthAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    // Force LightColorScheme to ensure consistent UI across modes
     val colorScheme = LightColorScheme
 
     MaterialTheme(
