@@ -6,56 +6,56 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import com.example.otpauthapp.ui.theme.ElectricCyan
-import com.example.otpauthapp.ui.theme.GlowingViolet
-import com.example.otpauthapp.ui.theme.NeonPink
+import com.example.otpauthapp.ui.theme.AccentCyan
+import com.example.otpauthapp.ui.theme.AccentPink
+import com.example.otpauthapp.ui.theme.PrimaryPurple
 
 @Composable
 fun BubblyBackground(modifier: Modifier = Modifier) {
     Canvas(modifier = modifier.fillMaxSize()) {
-        val width = size.width
-        val height = size.height
+        val w = size.width
+        val h = size.height
 
-        // Bubble 1: Top Left - Glowing Purple
+        // circle 1
         drawCircle(
-            color = GlowingViolet.copy(alpha = 0.2f),
-            radius = width * 0.45f,
-            center = Offset(width * 0.1f, height * 0.05f)
+            color = PrimaryPurple.copy(alpha = 0.2f),
+            radius = w * 0.45f,
+            center = Offset(w * 0.1f, h * 0.05f)
         )
 
-        // Bubble 2: Bottom Right - Cyan Glow
+        // circle 2
         drawCircle(
-            color = ElectricCyan.copy(alpha = 0.15f),
-            radius = width * 0.55f,
-            center = Offset(width * 0.95f, height * 0.95f)
+            color = AccentCyan.copy(alpha = 0.15f),
+            radius = w * 0.55f,
+            center = Offset(w * 0.95f, h * 0.95f)
         )
 
-        // Bubble 3: Middle Left - Pink Accent
+        // circle 3
         drawCircle(
-            color = NeonPink.copy(alpha = 0.12f),
-            radius = width * 0.35f,
-            center = Offset(width * -0.05f, height * 0.55f)
+            color = AccentPink.copy(alpha = 0.12f),
+            radius = w * 0.35f,
+            center = Offset(w * -0.05f, h * 0.55f)
         )
 
-        // Bubble 4: Top Right - Cyan Accent
+        // circle 4
         drawCircle(
-            color = ElectricCyan.copy(alpha = 0.08f),
-            radius = width * 0.25f,
-            center = Offset(width * 0.9f, height * 0.15f)
+            color = AccentCyan.copy(alpha = 0.08f),
+            radius = w * 0.25f,
+            center = Offset(w * 0.9f, h * 0.15f)
         )
         
-        // Bubble 5: Bottom Left - Purple Glow
+        // circle 5
         drawCircle(
-            color = GlowingViolet.copy(alpha = 0.1f),
-            radius = width * 0.4f,
-            center = Offset(width * 0.15f, height * 0.9f)
+            color = PrimaryPurple.copy(alpha = 0.1f),
+            radius = w * 0.4f,
+            center = Offset(w * 0.15f, h * 0.9f)
         )
 
-        // Extra Glow Bubble: Center
+        // center glow
         drawCircle(
-            color = GlowingViolet.copy(alpha = 0.05f),
-            radius = width * 0.6f,
-            center = Offset(width * 0.5f, height * 0.5f)
+            color = PrimaryPurple.copy(alpha = 0.05f),
+            radius = w * 0.6f,
+            center = Offset(w * 0.5f, h * 0.5f)
         )
     }
 }

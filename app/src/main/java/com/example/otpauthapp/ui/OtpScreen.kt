@@ -21,7 +21,7 @@ fun OtpScreen(
     onResendOtp: (String) -> Unit
 ) {
     var otp by rememberSaveable { mutableStateOf("") }
-    val isLoading = state is AuthState.Loading
+    val loading = state is AuthState.Loading
     
     val email = when (state) {
         is AuthState.OtpInput -> state.email
@@ -31,21 +31,22 @@ fun OtpScreen(
         else -> "" 
     }
 
-    val generatedAtMs = when (state) {
+    val startTime = when (state) {
         is AuthState.OtpInput -> state.generatedAtMs
         is AuthState.Error.InvalidOtp -> state.generatedAtMs
         else -> null
     }
 
-    var remainingSeconds by remember { mutableStateOf(60) }
+    var timeLeft by remember { mutableStateOf(60) }
 
-    LaunchedEffect(generatedAtMs) {
-        if (generatedAtMs != null) {
+    // update timer every 1s
+    LaunchedEffect(startTime) {
+        if (startTime != null) {
             while (true) {
-                val elapsed = (System.currentTimeMillis() - generatedAtMs) / 1000
-                remainingSeconds = (60 - elapsed).toInt().coerceAtLeast(0)
-                if (remainingSeconds <= 0) break
-                delay(500) // update more frequently for smoothness or use 1000
+                val elapsed = (System.currentTimeMillis() - startTime) / 1000
+                timeLeft = (60 - elapsed).toInt().coerceAtLeast(0)
+                if (timeLeft <= 0) break
+                delay(1000)
             }
         }
     }
@@ -74,16 +75,16 @@ fun OtpScreen(
                 onValueChange = { if (it.length <= 6) otp = it },
                 label = { Text("OTP") },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = !isLoading,
+                enabled = !loading,
                 singleLine = true
             )
 
-            // Bonus: Countdown Timer
-            if (generatedAtMs != null && remainingSeconds > 0) {
+            // countdown timer
+            if (startTime != null && timeLeft > 0) {
                 Text(
-                    text = "Expires in: ${remainingSeconds}s",
+                    text = "Expires in: ${timeLeft}s",
                     style = MaterialTheme.typography.labelMedium,
-                    color = if (remainingSeconds < 10) Color.Red else MaterialTheme.colorScheme.primary,
+                    color = if (timeLeft < 10) Color.Red else MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(top = 8.dp)
                 )
             }
@@ -91,14 +92,14 @@ fun OtpScreen(
             Spacer(modifier = Modifier.height(8.dp))
 
             if (state is AuthState.Error) {
-                val errorMessage = when (state) {
+                val msg = when (state) {
                     is AuthState.Error.InvalidOtp -> "Invalid OTP"
                     is AuthState.Error.ExpiredOtp -> "OTP Expired"
                     is AuthState.Error.AttemptsExceeded -> "Too many attempts"
                     is AuthState.Error.General -> state.message
                 }
                 Text(
-                    text = errorMessage,
+                    text = msg,
                     color = MaterialTheme.colorScheme.error,
                     style = MaterialTheme.typography.bodySmall
                 )
@@ -109,7 +110,7 @@ fun OtpScreen(
             Button(
                 onClick = { onOtpSubmitted(email, otp) },
                 modifier = Modifier.fillMaxWidth(0.4f),
-                enabled = !isLoading && otp.length == 6,
+                enabled = !loading && otp.length == 6,
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text("Verify OTP", fontWeight = FontWeight.Bold)
@@ -119,10 +120,10 @@ fun OtpScreen(
 
             TextButton(
                 onClick = { 
-                    otp = "" // Clear field on resend
+                    otp = "" // clear field
                     onResendOtp(email) 
                 },
-                enabled = !isLoading && email.isNotBlank()
+                enabled = !loading && email.isNotBlank()
             ) {
                 Text("Resend OTP")
             }

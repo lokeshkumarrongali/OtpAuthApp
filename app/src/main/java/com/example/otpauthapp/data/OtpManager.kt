@@ -15,60 +15,68 @@ data class OtpData(
 )
 
 class OtpManager {
-    // In-memory storage: Email -> OtpData
-    private val otpStorage = mutableMapOf<String, OtpData>()
+    // save otp for each email
+    private val otpMap = mutableMapOf<String, OtpData>()
 
     companion object {
         const val OTP_LENGTH = 6
-        const val EXPIRY_DURATION_MS = 60_000L // 60 seconds
-        const val MAX_ATTEMPTS = 3
+        const val EXPIRY_TIME = 60_000L // 60 seconds
+        const val MAX_TRIES = 3
     }
 
     fun generateOtp(email: String): String {
-        // Generate a random 6-digit numeric OTP with leading zeros
-        val otpCode = (0..999999)
+        // random 6 digit code
+        val code = (0..999999)
             .random().toString()
             .padStart(OTP_LENGTH, '0')
         
-        // Store with current timestamp and reset attempts
-        otpStorage[email] = OtpData(
-            code = otpCode,
+        // save it and reset tries to 0
+        otpMap[email] = OtpData(
+            code = code,
             timestampMillis = System.currentTimeMillis(),
             attemptCount = 0
         )
         
-        return otpCode
+        return code
     }
 
     fun validateOtp(email: String, input: String): OtpValidationResult {
-        val storedData = otpStorage[email] ?: return OtpValidationResult.NotFound
+        val data = otpMap[email] ?: return OtpValidationResult.NotFound
 
-        // Expiry check
-        if (isExpired(storedData.timestampMillis)) {
+        // check if expired
+        if (isExpired(data.timestampMillis)) {
+            removeOtp(email)
             return OtpValidationResult.ExpiredOtp
         }
 
-        // Attempt limit check
-        if (storedData.attemptCount >= MAX_ATTEMPTS) {
-            return OtpValidationResult.AttemptsExceeded
-        }
-
-        // Validation
-        return if (storedData.code == input) {
-            invalidateOtp(email)
+        // check if code matches
+        return if (data.code == input) {
+            removeOtp(email) // success, so delete otp
             OtpValidationResult.Success
         } else {
-            val updatedData = storedData.copy(attemptCount = storedData.attemptCount + 1)
-            otpStorage[email] = updatedData
-            OtpValidationResult.InvalidOtp
+            // wrong code, increase tries
+            val newTries = data.attemptCount + 1
+            
+            if (newTries >= MAX_TRIES) {
+                // reached 3 wrong tries, so invalidate it
+                removeOtp(email)
+                OtpValidationResult.AttemptsExceeded
+            } else {
+                otpMap[email] = data.copy(attemptCount = newTries)
+                OtpValidationResult.InvalidOtp
+            }
         }
     }
 
     fun invalidateOtp(email: String) {
-        otpStorage.remove(email)
+        removeOtp(email)
     }
 
-    private fun isExpired(timestampMillis: Long): Boolean {
-        return System.currentTimeMillis() - timestampMillis > EXPIRY_DURATION_MS
+    private fun removeOtp(email: String) {
+        otpMap.remove(email)
+    }
+
+    private fun isExpired(time: Long): Boolean {
+        return System.currentTimeMillis() - time > EXPIRY_TIME
     }
 }

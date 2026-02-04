@@ -4,18 +4,18 @@ import timber.log.Timber
 
 class AnalyticsLogger {
     fun logOtpGenerated(email: String, otp: String) {
-        Timber.d("🔑 [AUTH_EVENT] OTP generated for email: $email. Code: $otp")
+        Timber.d("🔑 OTP generated for: $email. Code: $otp")
     }
 
     fun logOtpValidationSuccess(email: String) {
-        Timber.i("✅ [AUTH_EVENT] OTP validation successful for email: $email")
+        Timber.i("✅ OTP success for: $email")
     }
 
     fun logOtpValidationFailure(email: String, reason: String) {
-        Timber.w("❌ [AUTH_EVENT] OTP validation failed for email: $email. Reason: $reason")
+        Timber.w("❌ OTP failed for: $email. Reason: $reason")
     }
 
     fun logLogout(email: String) {
-        Timber.d("🚪 [AUTH_EVENT] User logged out: $email")
+        Timber.d("🚪 Logout: $email")
     }
 }

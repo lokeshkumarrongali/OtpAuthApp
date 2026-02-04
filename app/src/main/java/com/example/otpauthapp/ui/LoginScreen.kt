@@ -21,11 +21,11 @@ fun LoginScreen(
     onEmailSubmitted: (String) -> Unit
 ) {
     var email by rememberSaveable { mutableStateOf("") }
-    val isLoading = state is AuthState.Loading
+    val loading = state is AuthState.Loading
     
-    // Real-time validation
-    val isEmailValid = email.isNotBlank() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    val showValidationError = email.isNotBlank() && !isEmailValid
+    // real time validation
+    val isValid = email.isNotBlank() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    val error = email.isNotBlank() && !isValid
 
     Box(modifier = Modifier.fillMaxSize()) {
         BubblyBackground()
@@ -42,22 +42,24 @@ fun LoginScreen(
                 onValueChange = { email = it },
                 label = { Text("Email") },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = !isLoading,
-                isError = showValidationError,
+                enabled = !loading,
+                isError = error,
                 supportingText = {
-                    if (showValidationError) {
+                    if (error) {
                         Text("Please enter a valid email address")
                     }
                 }
             )
+            
             Spacer(modifier = Modifier.height(16.dp))
+
             Button(
                 onClick = { onEmailSubmitted(email) },
                 modifier = Modifier.fillMaxWidth(0.4f),
-                enabled = !isLoading && email.isNotBlank(),
+                enabled = !loading && email.isNotBlank(),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                if (isLoading) {
+                if (loading) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(24.dp),
                         color = MaterialTheme.colorScheme.onPrimary

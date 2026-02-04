@@ -19,18 +19,18 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = CyberLime,
-    onPrimary = DeepObsidian,
-    secondary = ElectricCyan,
-    onSecondary = DeepObsidian,
-    tertiary = NeonPink,
+    primary = SuccessLime,
+    onPrimary = BackgroundDark,
+    secondary = AccentCyan,
+    onSecondary = BackgroundDark,
+    tertiary = AccentPink,
     onTertiary = Color.White,
-    background = DeepObsidian,
+    background = BackgroundDark,
     onBackground = Color.White,
-    surface = DarkCharcoal,
+    surface = SurfaceDark,
     onSurface = Color.White,
     onSurfaceVariant = Color.White.copy(alpha = 0.7f),
-    error = VibrantRed,
+    error = ErrorRed,
     onError = Color.White
 )
 

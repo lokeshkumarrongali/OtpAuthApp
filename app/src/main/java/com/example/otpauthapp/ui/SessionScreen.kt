@@ -21,7 +21,7 @@ fun SessionScreen(
     state: AuthState,
     onLogoutClicked: () -> Unit
 ) {
-    val sessionState = state as? AuthState.Session
+    val session = state as? AuthState.Session
 
     Box(modifier = Modifier.fillMaxSize()) {
         BubblyBackground()
@@ -42,8 +42,8 @@ fun SessionScreen(
             
             Spacer(modifier = Modifier.height(32.dp))
 
-            if (sessionState != null) {
-                // Boxed Session Info
+            if (session != null) {
+                // boxed session info
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -66,7 +66,7 @@ fun SessionScreen(
                             color = Color.White.copy(alpha = 0.7f)
                         )
                         Text(
-                            text = sessionState.startTimeFormatted,
+                            text = session.startTimeFormatted,
                             style = MaterialTheme.typography.bodyLarge,
                             color = Color.White,
                             fontWeight = FontWeight.Medium
@@ -80,7 +80,7 @@ fun SessionScreen(
                             color = Color.White.copy(alpha = 0.7f)
                         )
                         Text(
-                            text = sessionState.elapsedDisplay,
+                            text = session.elapsedDisplay,
                             style = MaterialTheme.typography.displayMedium,
                             color = MaterialTheme.colorScheme.primary,
                             fontWeight = FontWeight.Bold,
@@ -92,11 +92,9 @@ fun SessionScreen(
 
             Spacer(modifier = Modifier.height(48.dp))
             
-            // Logout Button with 1/3 gaps (means 1/3 width in center)
             Button(
                 onClick = onLogoutClicked,
-                modifier = Modifier
-                    .fillMaxWidth(0.4f), // Roughly 1/3 of width (0.33f would be exact but 0.4f is visually better)
+                modifier = Modifier.fillMaxWidth(0.4f),
                 shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
